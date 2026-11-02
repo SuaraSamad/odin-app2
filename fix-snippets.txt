@@ -1,0 +1,40 @@
+FIX 1 - App.jsx: add a state for the error message
+Paste on a new line under:  const [requests, setRequests] = useState(0)
+
+  const [error, setError] = useState('')
+
+
+FIX 2 - App.jsx: check the name before saving
+Select the whole handleSave function and replace it with:
+
+  async function handleSave() {
+    const trimmed = name.trim()
+    if (trimmed === '') {
+      setError('Please enter a display name.')
+      return
+    }
+    if (trimmed.length > 20) {
+      setError('Display name must be 20 characters or fewer.')
+      return
+    }
+    setError('')
+    setMessage('')
+    setRequests((requests) => requests + 1)
+    await saveToServer()
+    setMessage(`Saved "${trimmed}"`)
+  }
+
+
+FIX 3 - App.jsx: show the error message under the name box
+Paste on a new line above:  <button onClick={handleSave}>Save</button>
+
+      {error && <p className="error">{error}</p>}
+
+
+FIX 4 - App.css: make the error message red
+Paste at the very bottom of App.css:
+
+.error {
+  color: #e5484d;
+  font-weight: 600;
+}
